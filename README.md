@@ -20,3 +20,12 @@ The user or system that owns the protected resources and can grant access to the
 # Client
 
 The client is the system that requires access to the protected resources. To access resources, the Client must hold the appropriate Access Token.
+
+# Authorization Server
+
+This server receives requests from the Client for Access Tokens and issues them upon successful authentication and consent by the Resource Owner.
+
+# Resource Server
+
+A server that protects the user's resources and receives access requests from the Client. It accepts and validates an Access Token from the Client and return the appropriate resources to it.
+
