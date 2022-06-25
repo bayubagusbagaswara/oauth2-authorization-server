@@ -3,6 +3,7 @@ package com.authorization.server.service.impl;
 import com.authorization.server.entity.User;
 import com.authorization.server.repository.UserRepository;
 import com.authorization.server.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,16 +19,16 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     private final UserRepository userRepository;
 
+    @Autowired
     public CustomUserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    // username is an email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("No user found");
-        }
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
@@ -40,9 +41,6 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(List<String> roles) {
-
-        // ambil semua role dari roles user, lalu masukkan kedalam object SimpleGrantedAuthority
-
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
