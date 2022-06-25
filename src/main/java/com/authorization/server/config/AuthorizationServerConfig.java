@@ -29,6 +29,12 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+/**
+ * class ini adalah konfigurasi untuk Authorization Server
+ * jadi setiap request dari luar akan diatur atau di filter oleh konfigurasi disini
+ * Misal dari User (Client Apps) mengirimkan data login (username dan password)
+ *
+ */
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
 
@@ -47,9 +53,14 @@ public class AuthorizationServerConfig {
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
+    // mendafarkan semua data client app (third party)
+    // seperti Client ID, Client Secret atau password nya
+    // grant type apa saja yang dimiliki oleh Client
+    // scope yang dimiliki client app
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        RegisteredClient registeredClient = RegisteredClient
+                .withId(UUID.randomUUID().toString())
                 .clientId("api-client")
                 .clientSecret(passwordEncoder.encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
@@ -61,8 +72,7 @@ public class AuthorizationServerConfig {
                 .scope(OidcScopes.OPENID)
                 .scope("api.read")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                .build()
-                ;
+                .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
