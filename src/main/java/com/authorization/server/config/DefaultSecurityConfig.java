@@ -11,6 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * class ini digunakan untuk kongfigurasi security secara default pada Authorization Server
+ * misalnya semua http request yang masuk harus berhasil terautentikasi dulu
+ * dan form login yang digunakan juga default yakni memasukkan username dan password (tampilan login default spring security)
+ */
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
@@ -22,7 +27,6 @@ public class DefaultSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        // semua request yang masuk harus berhasil terautentikasi
         http
                 .authorizeRequests(authorizeRequest -> authorizeRequest
                         .anyRequest()
