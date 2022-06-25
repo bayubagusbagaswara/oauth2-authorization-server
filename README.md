@@ -29,3 +29,8 @@ This server receives requests from the Client for Access Tokens and issues them 
 
 A server that protects the user's resources and receives access requests from the Client. It accepts and validates an Access Token from the Client and return the appropriate resources to it.
 
+# Authorization Server 
+
+- Digunakan untuk mengautorisasi username dan password yang dikirimkan oleh user
+- Jika berhasil mengautentikasi username dan password (username dan password nya cocok), maka akan diterbitkan access token
+- Untuk mengakses authorization server, user akan mengirimkan request berupa data username, password, grant_type, dll
