@@ -13,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * class ini untuk mengambil data user detail berdasarkan username (yang dikirimkan oleh user saat login)
+ * username ini kita menggunakan email
+ * jadi user login itu menginputkan data email dan password
+ * data balikan user detail berisi email, password, enabled, dan authorities
+ */
 @Service
 @Transactional
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
@@ -24,7 +30,6 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
         this.userRepository = userRepository;
     }
 
-    // username is an email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
